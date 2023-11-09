@@ -1,27 +1,37 @@
-const Name = class{
-    constructor(name, occupation, qnty){
-        this.name = name,
-        this.occupation = occupation, 
-        this.qnty = qnty
-    }
-}
-const names = [
-    new Name("Diane", "Social Worker", "$45"),
-    new Name("Leah", "Medical Coder", "$55"),
-    new Name("Jamie", "Author", "$25"),
-    new Name("Mary", "Bookeeper", "$15"),
-    new Name("Tia", "Producer", "$90")
-]
-const list = document.createElement("ul")
-names.push(list)
+//html elements
+const averagePriceSpan = document.getElementById("price")
+const table = document.getElementById("table")
+let averagePrice = 0
+let peopleWhoHaveBeenAdded = 0
 
-const clearIntervalId = setInterval(() =>{
-    if(names.length>0){
-    const listItem = document.createElement ("li")
-    listItem.textContent = names[0].name + " " + names[0].occupation + " " + names[0].qnty
-    list.append(listItem)
-    names.shift()
-} else{
-    clearInterval(clearIntervalId)
+const freelancers = [
+    { name: "Dr. Slice", price: 25, occupation: "gardener" },
+    { name: "Dr. Pressure", price: 51, occupation: "programmer" },
+    { name: "Prof. Possibility", price: 43, occupation: "teacher" },
+    { name: "Prof. Prism", price: 81, occupation: "teacher" },
+    { name: "Dr. Impulse", price: 43, occupation: "teacher" },
+    { name: "Prof. Spark", price: 76, occupation: "programmer" },
+    { name: "Dr. Wire", price: 47, occupation: "teacher" },
+    { name: "Prof. Goose", price: 72, occupation: "driver" },
+  ];
+
+const addFreelancer = (freelancer)=>{
+    const tableRow = document.createElement("tr")
+    const freelancerName = document.createElement("td")
+    freelancerName.textContent = freelancer.name
+    const occupation = document.createElement("td")
+    occupation.textContent = freelancer.occupation
+    const price = document.createElement("td")
+    price.textContent = freelancer.price
+    tableRow.append(freelancerName, occupation, price)
+    table.append(tableRow)
+    peopleWhoHaveBeenAdded++
+    averagePriceSpan.textContent = Math.floor((averagePrice + freelancer.price)/peopleWhoHaveBeenAdded)
+    averagePrice = averagePrice + freelancer.price/peopleWhoHaveBeenAdded
+}
+
+setInterval(()=>{
+    if(peopleWhoHaveBeenAdded <8){
+        addFreelancer(freelancers[peopleWhoHaveBeenAdded])
     }
-}, 1000)
+},500)
